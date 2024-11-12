@@ -1,0 +1,30 @@
+LOOP WHILE (1) = (1)
+    # Llamando flujo de configuracion
+    CALL Config
+    # Leer Email
+    IF (File.IfFile.DoesNotExist File: $'''%FileMannager%\\TEMPORAL\\datos_factura.xlsx''') THEN
+        CALL LeerEmail
+    END
+    WAIT 4
+    IF (File.IfFile.Exists File: $'''%FileMannager%\\TEMPORAL\\datos_factura.xlsx''') THEN
+        BLOCK Login
+ON BLOCK ERROR all
+    REPEAT BLOCK
+END
+            @@copilotGeneratedAction: 'False'
+Scripting.RunPowershellScript.RunPowershellScript Script: $'''taskkill /F /IM chrome.exe /IM excel.exe
+''' ScriptOutput=> PowershellOutput
+            # Llamando flujo de login
+            CALL Login
+            # Llamando flujo de generar factura
+            CALL Facturar
+        END
+        Excel.CloseExcel.Close Instance: ExcelInstance
+        Cmd.Open.Open Directory: $'''%FileMannager%\\Scripts''' Session=> CmdSession
+        Cmd.Write Session: CmdSession Command: $'''py delete.py''' SendEnter: True
+        Cmd.Write Session: CmdSession Command: $'''py Reporte.py''' SendEnter: True
+        WAIT 5
+        Cmd.Close Session: CmdSession
+    END
+END
+
