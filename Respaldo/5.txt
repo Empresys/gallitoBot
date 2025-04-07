@@ -1,0 +1,19 @@
+
+FUNCTION LeerEmail GLOBAL
+    # Inicio de lectura
+    Display.ShowMessageDialog.ShowMessageWithTimeout Title: $'''MENSAJE ''' Message: $'''Inicio del proceso de lectura de buzón''' Icon: Display.Icon.None Buttons: Display.Buttons.OK DefaultButton: Display.DefaultButton.Button1 IsTopMost: True Timeout: 3 ButtonPressed=> ButtonPressed
+    Cmd.Open.Open Directory: $'''%FileMannager%\\Scripts''' Session=> CmdSession
+    Cmd.Write Session: CmdSession Command: $'''py %ScriptReadEmail%''' SendEnter: True
+    WAIT 5
+    Cmd.Close Session: CmdSession
+    IF (File.IfFile.Exists File: $'''%FileMannager%\\TEMPORAL\\datos_factura.xlsx''') THEN
+        Cmd.Open.Open Directory: $'''%FileMannager%\\Scripts''' Session=> CmdSession
+        Cmd.Write Session: CmdSession Command: $'''py %ScriptDrive%''' SendEnter: True
+        WAIT 5
+        Cmd.Write Session: CmdSession Command: $'''py %ScriptLimpiar%''' SendEnter: True
+        WAIT 5
+        Cmd.Close Session: CmdSession
+        EXIT FUNCTION
+    END
+    Display.ShowMessageDialog.ShowMessageWithTimeout Title: $'''MENSAJE''' Message: $'''No hay correos para leer''' Icon: Display.Icon.None Buttons: Display.Buttons.OK DefaultButton: Display.DefaultButton.Button1 IsTopMost: True Timeout: 3 ButtonPressed=> ButtonPressed2
+END FUNCTION

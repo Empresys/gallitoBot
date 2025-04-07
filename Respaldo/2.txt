@@ -1,0 +1,21 @@
+
+FUNCTION Config GLOBAL
+    # RUTA CMD
+    SET FileMannager TO $'''C:\\Users\\empresys.gallito\\Documents\\EmpresyFacturas'''
+    SET Txterror TO $'''%FileMannager%\\TEMPORAL\\error.txt'''
+    # Script Leer correo
+    SET ScriptReadEmail TO $'''ReadEmail.py'''
+    # Script Descargar Drive
+    SET ScriptDrive TO $'''ReadDrive.py
+'''
+    # Script Limpiar Excel
+    SET ScriptLimpiar TO $'''Limpiar.py'''
+    # Url de pagina
+    SET Url TO $'''http://161.35.103.205/gallito/'''
+    # Usuario
+    SET User TO $'''Sadmin
+'''
+    # Cotraseña
+    SET Password TO 9999
+    SET Promt TO $'''errrrro feurte '''
+END FUNCTION
